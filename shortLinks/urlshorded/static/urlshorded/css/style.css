@@ -1,3 +1,4 @@
+
 /* Указываем box sizing */
 *,
 *::before,
@@ -271,7 +272,7 @@ select {
 }
 .dell {
 	background-color: #fff;
-	background-image: url(dell.png);
+	background-image: url("/static/urlshorded/images/dell.png/");
 	background-repeat : no-repeat;
 	border: none;
 	width: 100%;
