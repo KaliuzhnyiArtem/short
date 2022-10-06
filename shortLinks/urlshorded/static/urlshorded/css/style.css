@@ -1,0 +1,297 @@
+/* Указываем box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Убираем внутренние отступы */
+ul[class],
+ol[class] {
+  padding: 0;
+}
+
+/* Убираем внешние отступы */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Выставляем основные настройки по-умолчанию для body */
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Упрощаем работу с изображениями */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Указываем понятную периодичность в потоке данных у article*/
+article > * + * {
+  margin-top: 1em;
+}
+
+/* Наследуем шрифты для инпутов и кнопок */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Удаляем все анимации и переходы для людей, которые предпочитай их не использовать */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+
+.main_page {
+	width: 100%;
+	/*height: 100vh;*/
+	display: flex;
+	justify-content: center;
+	background-color: #f8f9fa ;
+}
+
+.conteiner{
+	width: 70%;
+	
+	background-color: ;
+}
+
+.head{
+	width: 100%;
+	height: 60px;
+	display: flex;
+	justify-content: right;
+	align-items: center;
+	/*background-color: rgb(17, 49, 202);*/
+	border-radius: 4px;
+	position: sticky;
+  	top: 0;
+
+}
+
+
+
+.log_in {
+	height: 32px;
+	color: #fff;
+	background-color: rgb(4, 212, 152);
+	border-radius: 8px;
+	border: none;
+	margin-right: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.log_in:hover{
+	background-color: rgb(4, 202, 182);;
+}
+
+.create_akk {
+	height: 32px;
+	background-color: rgb(0, 102, 255);
+	border-radius: 8px;
+	border: none;
+	margin-right: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	color: #fff;
+}
+
+.create_akk:hover{
+	background-color: rgb(0, 90, 225);
+}
+
+.enter_link {
+	display: flex;
+	flex-direction: column;
+}
+
+.form_conteiner{
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 60px;
+	justify-content: center;
+}
+
+.form_for_ulr{
+	height: 40px;
+	border-radius: 8px;
+	margin-right: 15px;
+	margin-left: 15px;
+	flex-basis: 90%;
+	box-shadow: none;
+	border-color: rgb(59, 59, 59);
+	border-width: 0.5px;
+	padding-left: 25px;
+	font-size: 16px;
+	font-family: ubuntu, sans-serif;
+}
+
+.form_for_ulr:focus {
+	outline: 0;
+    outline-offset: 0;
+}
+
+
+.shorten{
+	height: 40px;
+	padding-left: 25px;
+	padding-right: 25px;
+	border-radius: 8px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	margin-right: 15px;
+}
+
+.shorten:hover {
+	background: #0066ff;
+}
+
+.main_title {
+	width: 100%;
+	height: 150px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 21px;
+	font-family: ubuntu, sans-serif;
+	font-weight: 600;
+}
+
+.links_conteiner {
+	margin-top: 50px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+
+}
+
+.item_link {
+	background-color: #fff;
+	font-family: ubuntu, sans-serif;
+	display: flex;
+	flex-direction: column;
+	padding-left: 25px;
+	padding-right: 25px;
+	padding-bottom: 15px;
+	padding-top: 15px;
+	border-radius: 8px;
+	margin-bottom: 15px;
+}
+
+
+.block_top {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.block_top p{
+	font-size: 14px;
+	color: #7e889f;
+}
+
+.date_info{
+	border: 1px solid;
+	border-radius: 8px;
+	border-color: #7e889f;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+.block_bottom {
+	width: 100%;
+	margin-top: 15px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.stat_and_dell{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.value_clicks{
+	border: 1px solid;
+	border-radius: 8px;
+	border-color: #007bff;
+	padding-left: 8px;
+	padding-right: 8px;
+
+}
+
+.del_but{
+	width: 16px;
+	height: 16px;
+	margin-left: 8px;
+	
+}
+.dell {
+	background-color: #fff;
+	background-image: url(dell.png);
+	background-repeat : no-repeat;
+	border: none;
+	width: 100%;
+	height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

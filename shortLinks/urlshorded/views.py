@@ -3,4 +3,4 @@ from django.http import HttpResponse
 
 
 def testpage(request):
-    return HttpResponse('Тестова сторінка')
+    return render(request, 'urlshorded/index.html')
