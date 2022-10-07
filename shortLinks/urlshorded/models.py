@@ -9,6 +9,11 @@ class UserInfo(models.Model):
 class Guests(models.Model):
     ip = models.TextField()
 
+    def get_id_guests(self, ip_guest):
+        id_guest = Guests.objects.filter(ip=ip_guest)[0].pk
+        if id_guest:
+            return id_guest
+
 
 class Links(models.Model):
     main_links = models.TextField(blank=False)
@@ -16,6 +21,26 @@ class Links(models.Model):
     deleted = models.BooleanField()
     owner_id = models.ForeignKey('UserInfo', on_delete=models.PROTECT, null=True)
     owner_ip = models.ForeignKey('Guests', on_delete=models.PROTECT, null=True)
+
+
+    def get_alldata(self):
+        return Links.objects.all()
+
+    def get_guest_data(self, ip):
+        guest = Guests()
+        id_guest = guest.get_id_guests(ip)
+        return Links.objects.filter(owner_ip_id=id_guest)
+
+    def get_user_data(self):
+        return Links.objects.filter(owner_id_id=1)
+
+    def valid_hash(self, url_hash):
+        if Links.objects.filter(short_links=url_hash):
+            return False
+        else:
+            return True
+
+
 
 
 class ClickToLinks(models.Model):
