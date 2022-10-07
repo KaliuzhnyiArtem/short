@@ -18,7 +18,7 @@ class Guests(models.Model):
 class Links(models.Model):
     main_links = models.TextField(blank=False)
     short_links = models.TextField(blank=False)
-    deleted = models.BooleanField()
+    deleted = models.BooleanField(default=False)
     owner_id = models.ForeignKey('UserInfo', on_delete=models.PROTECT, null=True)
     owner_ip = models.ForeignKey('Guests', on_delete=models.PROTECT, null=True)
 
@@ -35,6 +35,11 @@ class Links(models.Model):
             return False
         else:
             return True
+
+    def add_new_link(self, link, hash, owner_ip):
+        guest = Guests()
+        id_guest = guest.get_id_guests(owner_ip)
+        Links.objects.create(main_links=link, short_links=hash, owner_ip_id=id_guest)
 
 
 class ClickToLinks(models.Model):

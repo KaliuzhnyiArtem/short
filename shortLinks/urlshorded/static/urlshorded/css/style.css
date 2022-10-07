@@ -235,6 +235,7 @@ select {
 .block_top p{
 	font-size: 14px;
 	color: #7e889f;
+	height: 23px;
 }
 
 .date_info{
@@ -244,6 +245,13 @@ select {
 	padding-left: 8px;
 	padding-right: 8px;
 }
+
+.url_main{
+    width:70%;
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
+
 
 .block_bottom {
 	width: 100%;
