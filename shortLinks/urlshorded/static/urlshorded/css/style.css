@@ -152,6 +152,11 @@ select {
 	justify-content: center;
 }
 
+.fblock {
+    width:100%;
+    display: flex;
+}
+
 .form_for_ulr{
 	height: 40px;
 	border-radius: 8px;

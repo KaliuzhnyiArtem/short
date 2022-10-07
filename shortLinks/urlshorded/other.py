@@ -12,9 +12,7 @@ def get_client_ip(request) -> str:
     return ip
 
 
-#
 def generate_url_hash() -> str:
-
     link_con = Links()
     while True:
         url_hash = ''.join(choice(string.ascii_letters + string.digits+'-') for _ in range(6))

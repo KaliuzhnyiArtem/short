@@ -22,10 +22,6 @@ class Links(models.Model):
     owner_id = models.ForeignKey('UserInfo', on_delete=models.PROTECT, null=True)
     owner_ip = models.ForeignKey('Guests', on_delete=models.PROTECT, null=True)
 
-
-    def get_alldata(self):
-        return Links.objects.all()
-
     def get_guest_data(self, ip):
         guest = Guests()
         id_guest = guest.get_id_guests(ip)
@@ -39,8 +35,6 @@ class Links(models.Model):
             return False
         else:
             return True
-
-
 
 
 class ClickToLinks(models.Model):
