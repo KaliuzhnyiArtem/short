@@ -36,4 +36,6 @@ def delete_link(request, id_link):
     return redirect('home')
 
 
-
+#
+# def redirect_to_long_url():
+#     return redirect()
