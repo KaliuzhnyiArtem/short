@@ -25,7 +25,7 @@ class Links(models.Model):
     def get_guest_data(self, ip):
         guest = Guests()
         id_guest = guest.get_id_guests(ip)
-        return Links.objects.filter(owner_ip_id=id_guest)
+        return Links.objects.filter(owner_ip_id=id_guest).order_by('-pk')
 
     def get_user_data(self):
         return Links.objects.filter(owner_id_id=1)
@@ -40,6 +40,18 @@ class Links(models.Model):
         guest = Guests()
         id_guest = guest.get_id_guests(owner_ip)
         Links.objects.create(main_links=link, short_links=hash, owner_ip_id=id_guest)
+
+    def delete_link(self, id_link):
+        Links.objects.filter(pk=id_link).delete()
+
+    def validation_access_guest(self, link_id, ip_guest):
+        guest = Guests()
+        owner_link = Links.objects.values('owner_ip_id').filter(pk=link_id)[0]['owner_ip_id']
+
+        if owner_link == guest.get_id_guests(ip_guest):
+            return True
+        else:
+            return False
 
 
 class ClickToLinks(models.Model):

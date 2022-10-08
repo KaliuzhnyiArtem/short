@@ -22,7 +22,7 @@
 				<p>Введіть посилання для скорочення</p>
 			</div>
 			<div class="form_conteiner">
-				<form class="fblock" action="{% url 'tspg'%}" method="post" >
+				<form class="fblock" action="{% url 'home' %}" method="post" >
 					{% csrf_token %}
 					{{ form }}
 					<input type="submit" name="shorten_link" value="Скоротити" class="shorten">
@@ -43,14 +43,17 @@
 
 				<div class="block_bottom">
 					<div class="sh_link">
-						<p>{{item.short_links}}</p>
+						<p>127.0.0.1:8000/redirect/{{item.short_links}}</p>
 					</div>
 					<div class="stat_and_dell">
 						<div class="value_clicks">
 							<p>2 переходів</p>
 						</div>
 						<div class="del_but">
-							<input type="submit" name="del_link" class="dell" value="" >
+							<a href="{% url 'del' id_link=item.pk %}">
+								<input type="submit" name="del_link" class="dell" value="" >
+							</a>
+
 						</div>
 					</div>
 				</div>

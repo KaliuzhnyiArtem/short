@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from urlshorded.models import *
 from urlshorded.other import get_client_ip, generate_url_hash
 from .forms import GetUrlForm
+from django.http import HttpResponse
 
 
-def testpage(request):
+def homepage(request):
     listcon = Links()
     ip_guest = get_client_ip(request)
 
@@ -16,6 +17,7 @@ def testpage(request):
                                  hash=hash,
                                  owner_ip=ip_guest,
                                  )
+            return redirect('home')
     else:
         form = GetUrlForm()
 
@@ -24,4 +26,14 @@ def testpage(request):
         'form': form
     }
     return render(request, 'urlshorded/index.html', context=param)
+
+
+def delete_link(request, id_link):
+    link_con = Links()
+
+    if link_con.validation_access_guest(id_link, get_client_ip(request)):
+        link_con.delete_link(id_link)
+    return redirect('home')
+
+
 

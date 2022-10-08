@@ -3,5 +3,7 @@ from .views import *
 
 
 urlpatterns = [
-    path('', testpage, name='tspg'),
+    path('', homepage, name='home'),
+    path('delete/<int:id_link>/', delete_link, name='del'),
+
 ]
