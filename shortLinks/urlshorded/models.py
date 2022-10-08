@@ -53,6 +53,9 @@ class Links(models.Model):
         else:
             return False
 
+    def get_link_by_hash(self, hash_url):
+        return Links.objects.values('main_links').filter(short_links=hash_url)[0]['main_links']
+
 
 class ClickToLinks(models.Model):
     id_links = models.ForeignKey('Links', on_delete=models.PROTECT)

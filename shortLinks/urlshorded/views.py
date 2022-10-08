@@ -36,6 +36,6 @@ def delete_link(request, id_link):
     return redirect('home')
 
 
-#
-# def redirect_to_long_url():
-#     return redirect()
+def redirect_to_long_url(request, hash_url):
+    link_con = Links()
+    return redirect(link_con.get_link_by_hash(hash_url))
