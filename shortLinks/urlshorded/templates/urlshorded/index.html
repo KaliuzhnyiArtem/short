@@ -37,7 +37,7 @@
 						<p>{{item.main_links}}</p>
 					</div>
 					<div class="date_info">
-			 			<p>2022.10.05:18.50</p>
+			 			<p>{{ item.time_visit|date:"Y-m-d  H:i:s" }}</p>
 			 		</div>
 				</div>
 
@@ -47,7 +47,8 @@
 					</div>
 					<div class="stat_and_dell">
 						<div class="value_clicks">
-							<p>2 переходів</p>
+							{{time }}
+							<p>{{ item.cliks }} переходи </p>
 						</div>
 						<div class="del_but">
 							<a href="{% url 'del' id_link=item.pk %}">

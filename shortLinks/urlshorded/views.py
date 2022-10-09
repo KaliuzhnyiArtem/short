@@ -8,6 +8,7 @@ from django.http import HttpResponse
 def homepage(request):
     listcon = Links()
     ip_guest = get_client_ip(request)
+    list_items = listcon.get_guest_data(ip_guest)
 
     if request.method == 'POST':
         form = GetUrlForm(request.POST)
@@ -22,8 +23,8 @@ def homepage(request):
         form = GetUrlForm()
 
     param = {
-        'list_items': listcon.get_guest_data(ip_guest),
-        'form': form
+        'list_items': list_items,
+        'form': form,
     }
     return render(request, 'urlshorded/index.html', context=param)
 
@@ -38,4 +39,8 @@ def delete_link(request, id_link):
 
 def redirect_to_long_url(request, hash_url):
     link_con = Links()
+    click_con = ClickToLinks()
+
+    click_con.add_new_click(get_client_ip(request), hash_url)
+
     return redirect(link_con.get_link_by_hash(hash_url))

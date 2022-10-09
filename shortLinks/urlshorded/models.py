@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Count
+from datetime import datetime
 
 
 class UserInfo(models.Model):
@@ -25,7 +27,12 @@ class Links(models.Model):
     def get_guest_data(self, ip):
         guest = Guests()
         id_guest = guest.get_id_guests(ip)
-        return Links.objects.filter(owner_ip_id=id_guest, deleted=False).order_by('-pk')
+        list_items = Links.objects.raw(
+            f'SELECT *, (SELECT  count(id_links_id) FROM  urlshorded_clicktolinks WHERE id_links_id=urlshorded_links.id GROUP BY (id_links_id))  as cliks, (SELECT time_visit FROM urlshorded_clicktolinks WHERE id_links_id=urlshorded_links.id ORDER BY time_visit DESC LIMIT 1) as time_visit  FROM urlshorded_links WHERE (owner_ip_id={id_guest} AND  deleted=False) ORDER BY id DESC'
+        )
+
+        # return Links.objects.filter(owner_ip_id=id_guest, deleted=False).order_by('-pk')
+        return list_items
 
     def get_user_data(self):
         return Links.objects.filter(owner_id_id=1)
@@ -56,12 +63,31 @@ class Links(models.Model):
     def get_link_by_hash(self, hash_url):
         return Links.objects.values('main_links').filter(short_links=hash_url)[0]['main_links']
 
+    def get_idlink_by_hash(self, hash_url):
+        return Links.objects.values('pk').filter(short_links=hash_url)[0]['pk']
+
+    def get_last_date(self):
+        return Links.objects.raw('')
+
 
 class ClickToLinks(models.Model):
     id_links = models.ForeignKey('Links', on_delete=models.PROTECT)
     ip_visitor = models.TextField(blank=False)
     id_country = models.ForeignKey('Country', on_delete=models.PROTECT)
-    date = models.DateField()
+    time_visit = models.DateTimeField(auto_now=True)
+
+    def add_new_click(self, ip_visitor, hash_url):
+        link_con = Links()
+        id_link = link_con.get_idlink_by_hash(hash_url)
+        ClickToLinks.objects.create(ip_visitor=ip_visitor, id_country_id=1, id_links_id=id_link)
+
+    def get_count_clicks(self, id_links):
+        clicks = ClickToLinks.objects.filter(
+            id_links_id=id_links).values('id_links_id').annotate(clicks=Count('id_links_id'))
+        return clicks[0]['clicks']
+
+    def get_1(self):
+        return 1
 
 
 class Country(models.Model):
