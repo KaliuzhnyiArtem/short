@@ -66,8 +66,6 @@ class Links(models.Model):
     def get_idlink_by_hash(self, hash_url):
         return Links.objects.values('pk').filter(short_links=hash_url)[0]['pk']
 
-    def get_last_date(self):
-        return Links.objects.raw('')
 
 
 class ClickToLinks(models.Model):
@@ -86,8 +84,19 @@ class ClickToLinks(models.Model):
             id_links_id=id_links).values('id_links_id').annotate(clicks=Count('id_links_id'))
         return clicks[0]['clicks']
 
-    def get_1(self):
-        return 1
+    def valid_guest(self, ip_visitor, hash_url):
+        link_con = Links()
+        id_link = link_con.get_idlink_by_hash(hash_url)
+        guest = ClickToLinks.objects.filter(ip_visitor=ip_visitor, id_links_id=id_link)
+        if guest:
+            return False
+        else:
+            return True
+
+    def update_date_last_click(self, ip_visitor, hash_url):
+        link_con = Links()
+        id_link = link_con.get_idlink_by_hash(hash_url)
+        ClickToLinks.objects.filter(ip_visitor='127.0.0.1', id_links_id=id_link).update(time_visit=datetime.now())
 
 
 class Country(models.Model):

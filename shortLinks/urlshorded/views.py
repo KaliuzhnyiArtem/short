@@ -40,7 +40,11 @@ def delete_link(request, id_link):
 def redirect_to_long_url(request, hash_url):
     link_con = Links()
     click_con = ClickToLinks()
+    ip_guest = get_client_ip(request)
 
-    click_con.add_new_click(get_client_ip(request), hash_url)
+    if click_con.valid_guest(ip_guest, hash_url):
+        click_con.add_new_click(ip_guest, hash_url)
+    else:
+        click_con.update_date_last_click(ip_guest, hash_url)
 
     return redirect(link_con.get_link_by_hash(hash_url))

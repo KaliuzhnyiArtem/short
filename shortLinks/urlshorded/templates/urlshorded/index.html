@@ -47,8 +47,12 @@
 					</div>
 					<div class="stat_and_dell">
 						<div class="value_clicks">
-							{{time }}
-							<p>{{ item.cliks }} переходи </p>
+							{% if item.cliks > 0 %}
+								<p>{{ item.cliks }} переходи </p>
+							{% else %}
+								<p>0 переходів </p>
+							{% endif %}
+
 						</div>
 						<div class="del_but">
 							<a href="{% url 'del' id_link=item.pk %}">
