@@ -29,7 +29,7 @@ def get_items_list(request):
         return listcon.get_guest_data(get_client_ip(request))
 
 
-def add_new_url(request, link):
+def add_new_url(request, link: str):
     listcon = Links()
     hash = generate_url_hash()
 
@@ -39,7 +39,7 @@ def add_new_url(request, link):
         listcon.add_new_link_guest(link, hash, get_client_ip(request))
 
 
-def delete_url_info(request, link_id):
+def delete_url_info(request, link_id: int):
     linkcon = Links()
 
     if request.user.is_authenticated:

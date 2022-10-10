@@ -29,16 +29,14 @@ def homepage(request):
     return render(request, 'urlshorded/index.html', context=param)
 
 
-def delete_link(request, id_link):
+def delete_link(request, id_link: int):
     link_con = Links()
 
-    # if link_con.validation_access_guest(id_link, get_client_ip(request)):
-    #     link_con.delete_link(id_link)
     delete_url_info(request, id_link)
     return redirect('home')
 
 
-def redirect_to_long_url(request, hash_url):
+def redirect_to_long_url(request, hash_url: str):
     link_con = Links()
     click_con = ClickToLinks()
     ip_guest = get_client_ip(request)

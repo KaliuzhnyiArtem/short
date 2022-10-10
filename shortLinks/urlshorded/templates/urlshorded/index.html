@@ -50,9 +50,12 @@
 					<div class="url_main">
 						<p>{{item.main_links}}</p>
 					</div>
+					{% if item.time_visit %}
 					<div class="date_info">
+
 			 			<p>{{ item.time_visit|date:"Y-m-d  H:i:s" }}</p>
 			 		</div>
+					{% endif %}
 				</div>
 
 				<div class="block_bottom">
