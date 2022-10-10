@@ -7,6 +7,7 @@ urlpatterns = [
     path('delete/<int:id_link>/', delete_link, name='del'),
     path('redirect/<str:hash_url>', redirect_to_long_url, name='rdr'),
     path('register/>', RegisterUser.as_view(), name='reg'),
-    path('login/', login_users, name='log_user'),
+    path('login/', LoginUser.as_view(), name='login_user'),
+    path('logout/', logout_user, name='logout'),
 
 ]

@@ -103,11 +103,21 @@ select {
 	/*background-color: rgb(17, 49, 202);*/
 	border-radius: 4px;
 	position: sticky;
-  	top: 0;
-
+  top: 0;
 }
 
 
+
+.logout{
+    height: 32px;
+	color: #fff;
+	background-color: rgb(4, 212, 152);
+	border-radius: 8px;
+	border: none;
+	margin-right: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
 
 .log_in {
 	height: 32px;
@@ -291,6 +301,8 @@ select {
 	width: 100%;
 	height: 100%;
 }
+
+
 
 
 

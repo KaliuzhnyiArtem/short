@@ -1,22 +1,21 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{title}}</title>
+    <title>Вхід в профіль</title>
     <link rel="stylesheet" type="text/css" href="{% static 'urlshorded/css/reg.css' %}">
 </head>
 <body>
+
 <div class="regpage">
     <div class="regconteiner">
         <form method="post" class="formreg">
         {% csrf_token %}
         {{form}}
-        <input type="submit" value="Регестрація" class="regButton">
+        <input type="submit" value="Авторизація" class="loginButton">
 </form>
     </div>
 </div>
-
 </body>
 </html>

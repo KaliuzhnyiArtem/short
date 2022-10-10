@@ -12,13 +12,23 @@
 <div class="main_page">
 	<div class="conteiner">
 		<div class="head">
-			<div class="user">
-				<a href="{% url 'reg'%}">
-					<input type="submit" name="sign_up" value="Створити акаунт" class="create_akk">
-				</a>
-				<a href="{% url 'log_user' %}">
-					<input type="submit" name="log_in" value="Увійти" class="log_in">
-				</a>
+			<div class="userbar" style="display:flex;">
+				{% if request.user.is_authenticated %}
+
+					<p style=" margin-right: 20px; font-size: 20px;">
+						{{user.username}}
+					</p>
+					<a href="{% url 'logout'%}">
+						<input type="submit" name="logout" value="Вийти" class="log_in">
+					</a>
+				{% else %}
+					<a href="{% url 'reg'%}">
+						<input type="submit" name="sign_up" value="Створити акаунт" class="create_akk">
+					</a>
+					<a href="{% url 'login_user' %}">
+						<input type="submit" name="log_in" value="Увійти" class="log_in">
+					</a>
+				{% endif%}
 			</div>
 		</div>
 		<div class="enter_link">
