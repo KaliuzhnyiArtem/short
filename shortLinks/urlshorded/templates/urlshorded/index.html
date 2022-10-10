@@ -15,7 +15,7 @@
 			<div class="userbar" style="display:flex;">
 				{% if request.user.is_authenticated %}
 
-					<p style=" margin-right: 20px; font-size: 20px;">
+					<p style=" margin-right: 20px; font-size: 20px; font-family: ubuntu, sans-serif;">
 						{{user.username}}
 					</p>
 					<a href="{% url 'logout'%}">
@@ -78,6 +78,7 @@
 				</div>
 			</div>
 			{% endfor%}
+
 		</div>
 	</div>
 </div>

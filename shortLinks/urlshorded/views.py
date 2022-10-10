@@ -2,7 +2,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from urlshorded.models import *
-from urlshorded.other import get_client_ip, generate_url_hash
+from urlshorded.other import *
 from .forms import GetUrlForm, RegisterUserForm, LoginUserForm
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
@@ -11,16 +11,13 @@ from django.urls import reverse_lazy
 def homepage(request):
     listcon = Links()
     ip_guest = get_client_ip(request)
-    list_items = listcon.get_guest_data(ip_guest)
+    print(ip_guest)
+    list_items = get_items_list(request)
 
     if request.method == 'POST':
         form = GetUrlForm(request.POST)
         if form.is_valid():
-            hash = generate_url_hash()
-            listcon.add_new_link(form.cleaned_data['main_links'],
-                                 hash=hash,
-                                 owner_ip=ip_guest,
-                                 )
+            add_new_url(request, form.cleaned_data['main_links'],)
             return redirect('home')
     else:
         form = GetUrlForm()
@@ -35,8 +32,9 @@ def homepage(request):
 def delete_link(request, id_link):
     link_con = Links()
 
-    if link_con.validation_access_guest(id_link, get_client_ip(request)):
-        link_con.delete_link(id_link)
+    # if link_con.validation_access_guest(id_link, get_client_ip(request)):
+    #     link_con.delete_link(id_link)
+    delete_url_info(request, id_link)
     return redirect('home')
 
 
