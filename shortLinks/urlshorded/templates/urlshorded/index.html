@@ -13,8 +13,12 @@
 	<div class="conteiner">
 		<div class="head">
 			<div class="user">
-				<input type="submit" name="sign_up" value="Створити акаунт" class="create_akk">
-				<input type="submit" name="log_in" value="Увійти" class="log_in">
+				<a href="{% url 'reg'%}">
+					<input type="submit" name="sign_up" value="Створити акаунт" class="create_akk">
+				</a>
+				<a href="{% url 'log_user' %}">
+					<input type="submit" name="log_in" value="Увійти" class="log_in">
+				</a>
 			</div>
 		</div>
 		<div class="enter_link">
