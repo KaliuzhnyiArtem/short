@@ -7,6 +7,9 @@ from .forms import GetUrlForm, RegisterUserForm, LoginUserForm
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 
 def homepage(request):
     listcon = Links()
@@ -73,3 +76,14 @@ class LoginUser(LoginView):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+#API
+
+class SHORTURL(APIView):
+    def post(self, request):
+        hash_url = generate_url_hash()
+        Links.objects.create(main_links=request.data['link'], short_links=hash_url)
+
+        short_url = '127.0.0.1:8000/redirect/'+hash_url
+        return Response({'short_link': short_url})
