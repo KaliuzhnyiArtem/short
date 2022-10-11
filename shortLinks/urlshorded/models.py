@@ -102,7 +102,7 @@ class ClickToLinks(models.Model):
         else:
             return True
 
-    def update_date_last_click(self, ip_visitor: int, hash_url: str):
+    def update_date_last_click(self, ip_visitor: str, hash_url: str):
         link_con = Links()
         id_link = link_con.get_idlink_by_hash(hash_url)
         ClickToLinks.objects.filter(ip_visitor=ip_visitor, id_links_id=id_link).update(time_visit=datetime.now())
