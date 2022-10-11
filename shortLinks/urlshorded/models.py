@@ -13,13 +13,22 @@ class Guests(models.Model):
         if id_guest:
             return id_guest[0].pk
 
+    def add_new_guest(self, guest_ip):
+        Guests.objects.create(ip=guest_ip)
+
+    def find_guest(self, guest_ip):
+        if Guests.objects.filter(ip=guest_ip):
+            return True
+        else:
+            return False
+
 
 class Links(models.Model):
     main_links = models.TextField(blank=False)
     short_links = models.TextField(blank=False)
     deleted = models.BooleanField(default=False)
     owner_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    owner_ip = models.ForeignKey('Guests', on_delete=models.PROTECT, null=True)
+    owner_ip = models.ForeignKey('Guests', on_delete=models.CASCADE, null=True)
 
     def get_guest_data(self, ip='127.0.0.1'):
         guest = Guests()
@@ -78,15 +87,15 @@ class Links(models.Model):
 
 
 class ClickToLinks(models.Model):
-    id_links = models.ForeignKey('Links', on_delete=models.PROTECT)
+    id_links = models.ForeignKey('Links', on_delete=models.CASCADE)
     ip_visitor = models.TextField(blank=False)
-    id_country = models.ForeignKey('Country', on_delete=models.PROTECT)
+    id_country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
     time_visit = models.DateTimeField(auto_now=True)
 
     def add_new_click(self, ip_visitor: str, hash_url: str):
         link_con = Links()
         id_link = link_con.get_idlink_by_hash(hash_url)
-        ClickToLinks.objects.create(ip_visitor=ip_visitor, id_country_id=1, id_links_id=id_link)
+        ClickToLinks.objects.create(ip_visitor=ip_visitor, id_country_id=None, id_links_id=id_link)
 
     def get_count_clicks(self, id_links: int):
         clicks = ClickToLinks.objects.filter(
@@ -97,6 +106,7 @@ class ClickToLinks(models.Model):
         link_con = Links()
         id_link = link_con.get_idlink_by_hash(hash_url)
         guest = ClickToLinks.objects.filter(ip_visitor=ip_visitor, id_links_id=id_link)
+
         if guest:
             return False
         else:
@@ -106,6 +116,7 @@ class ClickToLinks(models.Model):
         link_con = Links()
         id_link = link_con.get_idlink_by_hash(hash_url)
         ClickToLinks.objects.filter(ip_visitor=ip_visitor, id_links_id=id_link).update(time_visit=datetime.now())
+
 
 
 class Country(models.Model):

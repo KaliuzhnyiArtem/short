@@ -22,11 +22,16 @@ def generate_url_hash() -> str:
 
 def get_items_list(request):
     listcon = Links()
+    guestcon = Guests()
 
     if request.user.is_authenticated:
         return listcon.get_user_data(request.user.id)
     else:
-        return listcon.get_guest_data(get_client_ip(request))
+        if guestcon.find_guest(get_client_ip(request)):
+            print('Такий гість існує')
+            return listcon.get_guest_data(get_client_ip(request))
+        else:
+            guestcon.add_new_guest(get_client_ip(request))
 
 
 def add_new_url(request, link: str):
