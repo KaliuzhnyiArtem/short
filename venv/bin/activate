@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/artem/Desktop/Work/shortLinks/venv"
+VIRTUAL_ENV="/Users/artem/Desktop/Work/Work/shortLinks/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
