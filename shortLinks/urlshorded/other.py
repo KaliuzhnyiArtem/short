@@ -28,7 +28,6 @@ def get_items_list(request):
         return listcon.get_user_data(request.user.id)
     else:
         if guestcon.find_guest(get_client_ip(request)):
-            print('Такий гість існує')
             return listcon.get_guest_data(get_client_ip(request))
         else:
             guestcon.add_new_guest(get_client_ip(request))
