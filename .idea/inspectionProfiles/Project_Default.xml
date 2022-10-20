@@ -6,6 +6,9 @@
         <list>
           <option value="main.InlineKeyboardMarkup" />
           <option value="women.models.Women.objects" />
+          <option value="urlshorded.models.Guests.objects" />
+          <option value="urlshorded.models.Links.objects" />
+          <option value="urlshorded.models.ClickToLinks.objects" />
         </list>
       </option>
     </inspection_tool>

@@ -59,30 +59,26 @@ class Links(models.Model):
     def add_new_link_user(self, link: str, hash_url, user_id: str):
         Links.objects.create(main_links=link, short_links=hash_url, owner_id_id=user_id)
 
-    def delete_link(self, id_link: int):
+    def delete_link(self, id_link: int) -> None:
+        """Установлює влаг видалення на True"""
         Links.objects.filter(pk=id_link).update(deleted=True)
 
-    def validation_access_guest(self, link_id: int, ip_guest: str):
-        guest = Guests()
-        owner_link = Links.objects.values('owner_ip_id').filter(pk=link_id)[0]['owner_ip_id']
+    def get_ip_owner_link_for_guest(self, id_link: int,) -> str:
+        """Повертає ip власника URL по id_link
+        (для неавторизованих користувачів)"""
+        return Links.objects.values('owner_ip_id').filter(pk=id_link)[0]['owner_ip_id']
 
-        if owner_link == guest.get_id_guests(ip_guest):
-            return True
-        else:
-            return False
+    def get_id_owner_link_for_user(self, id_link: int,) -> int:
+        """Повертає id власника URL по id_link
+        (для авторизованих користувачів)"""
+        return Links.objects.values('owner_id_id').filter(pk=id_link)[0]['owner_id_id']
 
-    def validation_access_user(self, user_id: int, id_link: int, ):
-        owner_link = Links.objects.values('owner_id_id').filter(pk=id_link)[0]['owner_id_id']
-
-        if owner_link == user_id:
-            return True
-        else:
-            return False
-
-    def get_link_by_hash(self, hash_url: str):
+    def get_link_by_hash(self, hash_url: str) -> str:
+        """Повертає Url за переданим hash_url """
         return Links.objects.values('main_links').filter(short_links=hash_url)[0]['main_links']
 
     def get_idlink_by_hash(self, hash_url: str):
+        """Повертає id_url за переданим hash_url"""
         return Links.objects.values('pk').filter(short_links=hash_url)[0]['pk']
 
 
@@ -93,9 +89,11 @@ class ClickToLinks(models.Model):
     time_visit = models.DateTimeField(auto_now=True)
 
     def add_new_click(self, ip_visitor: str, hash_url: str):
+        """Додає новий запис про клік в таблицю"""
         link_con = Links()
-        id_link = link_con.get_idlink_by_hash(hash_url)
-        ClickToLinks.objects.create(ip_visitor=ip_visitor, id_country_id=None, id_links_id=id_link)
+        ClickToLinks.objects.create(ip_visitor=ip_visitor,
+                                    id_country_id=None,
+                                    id_links_id=link_con.get_idlink_by_hash(hash_url))
 
     def get_count_clicks(self, id_links: int):
         clicks = ClickToLinks.objects.filter(
@@ -103,6 +101,7 @@ class ClickToLinks(models.Model):
         return clicks[0]['clicks']
 
     def valid_guest(self, ip_visitor: str, hash_url: str):
+        """Перевіряє чи раніше переходив гість по короткому URL"""
         link_con = Links()
         id_link = link_con.get_idlink_by_hash(hash_url)
         guest = ClickToLinks.objects.filter(ip_visitor=ip_visitor, id_links_id=id_link)
@@ -112,11 +111,13 @@ class ClickToLinks(models.Model):
         else:
             return True
 
-    def update_date_last_click(self, ip_visitor: str, hash_url: str):
-        link_con = Links()
-        id_link = link_con.get_idlink_by_hash(hash_url)
-        ClickToLinks.objects.filter(ip_visitor=ip_visitor, id_links_id=id_link).update(time_visit=datetime.now())
+    def get_guest_by_ip_and_id_link(self, ip_visitor: str, id_link: int):
+        """Повертає гостя з полями ip_visitor id_links_id"""
+        return ClickToLinks.objects.filter(ip_visitor=ip_visitor, id_links_id=id_link)
 
+    def update_date_last_click(self, ip_visitor: str, id_link: int) -> None:
+        """Оновлює дату останього переходу по переданому id_link"""
+        ClickToLinks.objects.filter(ip_visitor=ip_visitor, id_links_id=id_link).update(time_visit=datetime.now())
 
 
 class Country(models.Model):
