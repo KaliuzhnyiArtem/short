@@ -7,10 +7,9 @@ from django.urls import reverse_lazy
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import *
 from urlshorded.other import handler_post_request_in_url_form, \
-    get_context_for_homepage, delete_url_info, generate_url_hash,\
-    add_new_click, get_link_by_hash
+    get_context_for_homepage, delete_url_info, \
+    add_new_click, get_link_by_hash, create_short_url_use_api
 
 
 def homepage(request):
@@ -66,9 +65,6 @@ def logout_user(request):
 
 # API
 class SHORTURL(APIView):
+    """API запрос для створення короткого URL"""
     def post(self, request):
-        hash_url = generate_url_hash()
-        Links.objects.create(main_links=request.data['link'], short_links=hash_url)
-
-        short_url = '127.0.0.1:8000/redirect/'+hash_url
-        return Response({'short_link': short_url})
+        return Response({'short_link': create_short_url_use_api(request)})

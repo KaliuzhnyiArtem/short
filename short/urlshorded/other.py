@@ -6,6 +6,7 @@ from urlshorded.models import *
 
 
 def get_client_ip(request) -> str:
+    """Повертає IP користувача"""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -15,6 +16,7 @@ def get_client_ip(request) -> str:
 
 
 def generate_url_hash() -> str:
+    """Генерує та повертає url_hash"""
     link_con = Links()
     while True:
         url_hash = ''.join(choice(string.ascii_letters + string.digits+'-') for _ in range(6))
@@ -23,26 +25,32 @@ def generate_url_hash() -> str:
 
 
 def get_items_list(request):
+    """Повертає список з інформацією про всі URL користувача"""
     listcon = Links()
     guestcon = Guests()
+    guest_ip = get_client_ip(request)
 
     if request.user.is_authenticated:
         return listcon.get_user_data(request.user.id)
     else:
-        if guestcon.find_guest(get_client_ip(request)):
-            return listcon.get_guest_data(get_client_ip(request))
+        if guestcon.find_guest(guest_ip):
+            return listcon.get_guest_data(guest_ip)
         else:
-            guestcon.add_new_guest(get_client_ip(request))
+            guestcon.add_new_guest(guest_ip)
 
 
 def add_new_url(request, link: str):
+    """Перевіряє хто створює short link гість чи юзер.
+    Додає данні в таблицю про довгу і коротку URL """
     listcon = Links()
-    hash = generate_url_hash()
+    hash_url = generate_url_hash()
+    guest = Guests()
 
     if request.user.is_authenticated:
-        listcon.add_new_link_user(link, hash, request.user.id)
+        listcon.add_new_link_user(link, hash_url, request.user.id)
     else:
-        listcon.add_new_link_guest(link, hash, get_client_ip(request))
+        listcon.add_new_link_guest(link, hash_url,
+                                   guest.get_id_guests(get_client_ip(request)))
 
 
 def delete_url_info(request, link_id: int):
@@ -107,7 +115,7 @@ def add_new_click(request, hash_url: str) -> None:
     ip_guest = get_client_ip(request)
 
     if _valid_guest(ip_guest, hash_url):
-        click_con.add_new_click(ip_guest, hash_url)
+        click_con.add_new_click(ip_guest, id_link)
     else:
         click_con.update_date_last_click(ip_guest, id_link)
 
@@ -128,4 +136,18 @@ def get_link_by_hash(hash_url):
     """Повертає Url за переданим hash_url """
     link_con = Links()
     return link_con.get_link_by_hash(hash_url)
+
+
+def create_short_url_use_api(request) -> str:
+    """Додає новий запис з довгим та коротким URL в таблицю
+    Повертає коротке URL"""
+    linc_con = Links()
+    hash_url = generate_url_hash()
+    linc_con.create_short_url_use_api(request, hash_url)
+
+    return '127.0.0.1:8000/redirect/' + hash_url
+
+
+def plus_do(a, b):
+    return a+b
 
